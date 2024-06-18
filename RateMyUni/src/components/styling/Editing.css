@@ -1,0 +1,21 @@
+.editing-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px;
+    margin-top: -270px; /* Adjust this value to move the container higher or lower */
+    margin-right: -1000px; /* Adjust this value to move the container to the left or right */
+}
+.editing-image {
+    width: 100%;
+    max-width: 200px; /* Adjust the size as needed /
+        height: auto;
+        border-radius: 8px; / Optional: add some rounding to the image */
+}
+.editing-text {
+    margin-top: 10px;
+    font-size: 16px; /* Adjust the size as needed /
+    color: rgb(255, 255, 255); / Adjust the color as needed */
+}
