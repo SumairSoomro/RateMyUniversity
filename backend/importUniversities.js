@@ -1,45 +1,43 @@
-// backend/importUniversities.js
 const fs = require("fs");
 const mongoose = require("mongoose");
 const csvParser = require("csv-parser");
 const dotenv = require("dotenv");
 const University = require("./models/universityModel");
-
+const { connectDB } = require("./config/db");
 // Load environment variables
+
 dotenv.config();
 
-// Connect to the database
-const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {});
-        console.log("MongoDB Connected");
-    } catch (error) {
-        console.error("Error connecting to MongoDB", error);
-        process.exit(1);
-    }
-};
+const universities = new Set();
 
-connectDB();
-
-const results = [];
-
-// Parse the CSV file
 // Parse the CSV file
 fs.createReadStream("universities.csv")
     .pipe(csvParser())
     .on("data", (data) => {
         console.log(data); // Log parsed data to debug
         if (data.institution) {
-            results.push({ name: data.institution });
+            universities.add(data.institution);
         }
     })
     .on("end", async () => {
+        const uniqueUniversities = Array.from(universities).map((name) => ({
+            name,
+        }));
+
         try {
-            await University.insertMany(results);
+            await University.insertMany(uniqueUniversities, { ordered: false });
             console.log("Universities imported successfully");
             process.exit();
         } catch (error) {
-            console.error("Error importing universities", error);
+            if (error.code === 11000) {
+                console.error("Duplicate key error", error);
+            } else {
+                console.error("Error importing universities", error);
+            }
             process.exit(1);
         }
+    })
+    .on("error", (error) => {
+        console.error("Error reading CSV file", error);
+        process.exit(1);
     });

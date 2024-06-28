@@ -1,4 +1,5 @@
 import "./styling/Landingpage.css";
+import SearchBar from "./Searchbar";
 
 function Landingpage() {
     return (
@@ -10,17 +11,7 @@ function Landingpage() {
                 about your education.
             </p>
             <div className="search-container">
-                <form action="/search" method="GET">
-                    <input
-                        type="search"
-                        name="q"
-                        className="search-box"
-                        placeholder="Search for universities..."
-                    />
-                    <button type="submit" className="search-button">
-                        Search
-                    </button>
-                </form>
+                <SearchBar placeholder="Enter university name" />
             </div>
         </div>
     );

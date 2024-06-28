@@ -14,3 +14,4 @@ const University = mongoose.model("University", universitySchema);
 
 // Export the model to use in other parts of the application
 module.exports = University;
+

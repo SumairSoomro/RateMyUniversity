@@ -10,4 +10,8 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB;
+
+    console.log('lora')
+
+
+module.exports = {connectDB};
