@@ -11,7 +11,7 @@ const connectDB = async () => {
 };
 
 
-    console.log('lora')
+
 
 
 module.exports = {connectDB};

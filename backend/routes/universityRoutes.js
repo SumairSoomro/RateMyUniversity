@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { getUniversities } = require('../controllers/universityController');
+const { getUniversities } = require("../controllers/universityController");
 
 // Route to get all university names
-router.get('/', getUniversities);
-
-
+router.get("/", getUniversities);
 
 module.exports = router;
