@@ -17,7 +17,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-
+app.get("/", (req, res) => {
+    res.send("Hello from Express!");
+});
 app.use("/api/universities", require("./routes/universityRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 

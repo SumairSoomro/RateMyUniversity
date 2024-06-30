@@ -39,7 +39,63 @@ const createReview = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 };
+
+// Update an existing review
+const updateReview = async (req, res) => {
+    try {
+        const review = await UniversityReview.findById(req.params.reviewId);
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        // Update the review with new data
+        review.food = req.body.food !== undefined ? req.body.food : review.food;
+        review.safety =
+            req.body.safety !== undefined ? req.body.safety : review.safety;
+        review.greekLife =
+            req.body.greekLife !== undefined
+                ? req.body.greekLife
+                : review.greekLife;
+        review.clubs =
+            req.body.clubs !== undefined ? req.body.clubs : review.clubs;
+        review.facilities =
+            req.body.facilities !== undefined
+                ? req.body.facilities
+                : review.facilities;
+        review.location =
+            req.body.location !== undefined
+                ? req.body.location
+                : review.location;
+        review.faculty =
+            req.body.faculty !== undefined ? req.body.faculty : review.faculty;
+        review.networking =
+            req.body.networking !== undefined
+                ? req.body.networking
+                : review.networking;
+
+        const updatedReview = await review.save();
+        res.json(updatedReview);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+const deleteReview = async (req, res) => {
+    try {
+        const review = await UniversityReview.findById(req.params.reviewId);
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        await UniversityReview.deleteOne({ _id: req.params.reviewId });
+        res.json({ message: "Review deleted" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 module.exports = {
     getReviewsByUniversity,
     createReview,
+    updateReview,
+    deleteReview,
 };
