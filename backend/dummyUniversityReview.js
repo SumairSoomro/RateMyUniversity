@@ -17,6 +17,7 @@ mongoose
             location: 0,
             faculty: 0,
             networking: 0,
+            reviewText: "This is a sample review text.", // Add review text
         });
 
         dummyUniversity

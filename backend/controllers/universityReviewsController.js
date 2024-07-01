@@ -30,6 +30,7 @@ const createReview = async (req, res) => {
         location: req.body.location,
         faculty: req.body.faculty,
         networking: req.body.networking,
+        reviewText: req.body.reviewText, // Add this line
     });
 
     try {
@@ -72,6 +73,10 @@ const updateReview = async (req, res) => {
             req.body.networking !== undefined
                 ? req.body.networking
                 : review.networking;
+        review.reviewText =
+            req.body.reviewText !== undefined
+                ? req.body.reviewText
+                : review.reviewText; // Add this line
 
         const updatedReview = await review.save();
         res.json(updatedReview);

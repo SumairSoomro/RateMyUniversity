@@ -55,6 +55,11 @@ const reviewSchema = new mongoose.Schema(
             min: 0,
             max: 5,
         },
+        reviewText: {
+            type: String,
+            required: false, // This field is optional
+            trim: true,
+        },
     },
     { collection: "universityReviews" }
 );
