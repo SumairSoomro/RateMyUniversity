@@ -1,0 +1,21 @@
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh; /* Make sure it takes the full viewport height */
+    margin-top: -30vh; /* Adjust this value to move the content higher */
+}
+
+h1 {
+    font-size: 48px; /* Adjust size as needed */
+    margin-bottom: 20px; /* Space between the heading and paragraph */
+}
+
+p {
+    font-size: 20px; /* Adjust size as needed */
+    max-width: 600px; /* Optional: to limit the width of the paragraph */
+    margin: 0 20px; /* Center the paragraph with some side margin */
+    line-height: 1.5; /* Improve readability */
+}

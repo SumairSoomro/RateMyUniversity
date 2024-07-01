@@ -1,0 +1,23 @@
+.anon-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px;
+    margin-top: -200px; /* Adjust this value to move the image higher or lower */
+    margin-left: -1000px;
+    }
+    
+    .anon-image {
+    width: 100%;
+    max-width: 200px; /* Adjust the size as needed /
+    height: auto;
+    border-radius: 8px; / Optional: add some rounding to the image */
+    }
+    
+    .anon-text {
+    margin-top: 10px;
+    font-size: 16px; /* Adjust the size as needed /
+    color: rgb(255, 255, 255); / Adjust the color as needed */
+    }
