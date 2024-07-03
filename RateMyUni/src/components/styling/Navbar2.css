@@ -1,0 +1,49 @@
+/* Common body styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+.navbar2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    position: fixed;
+    top: 8.5px; /* Adjust this value to move the navbar lower */
+    width: 100%;
+    z-index: 1000; /* Ensures the navbar stays on top of other content */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+.navbar-logo2 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.navbar-links2 {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: auto; /* Aligns links to the right */
+}
+
+.navbar-links2 li {
+    margin: 0 10px;
+}
+
+.navbar-link2 {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 0 10px; /* Adds padding to ensure the links are fully visible */
+}
+
+.navbar-link2:hover {
+    text-decoration: underline;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Light shadow */
+}

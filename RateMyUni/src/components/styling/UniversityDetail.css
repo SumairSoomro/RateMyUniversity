@@ -1,0 +1,13 @@
+/* UniversityDetail.css */
+.content {
+    margin-top: 60px; /* Adjust based on the height of your navbar */
+    padding: 20px;
+}
+
+.content2 > div {
+    margin-bottom: 10px; /* Space between reviews */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: black;
+}
