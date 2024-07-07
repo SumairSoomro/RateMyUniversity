@@ -1,4 +1,8 @@
-body,
+/* styles.css or LandingPage.css */
+body {
+    overflow-x: hidden;
+}
+
 html {
     margin: 0;
     padding: 0;

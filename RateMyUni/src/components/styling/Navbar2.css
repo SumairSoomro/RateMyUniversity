@@ -12,7 +12,7 @@ body {
     padding: 10px 20px;
     background-color: black;
     color: white;
-    position: fixed;
+    position: relative;
     top: 8.5px; /* Adjust this value to move the navbar lower */
     width: 100%;
     z-index: 1000; /* Ensures the navbar stays on top of other content */

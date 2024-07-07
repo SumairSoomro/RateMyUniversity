@@ -1,58 +1,95 @@
-
 import PropTypes from "prop-types";
+import "./styling/OverallRev.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 function OverallRev({ reviews }) {
-    
-    const noReturn = () => {
-        if (!reviews.length) {
-            return <p>No reviews available.</p>;
-        }
-    };
-    
+    if (!reviews.length) {
+        return (
+            <p className="no-reviews-message">
+                No reviews have been made, be the first to leave a review!
+            </p>
+        );
+    }
+
     const ratingCategories = [
-        "food",
-        "safety",
-        "greekLife",
-        "clubs",
-        "facilities",
-        "location",
-        "faculty",
-        "networking",
+        { key: "food", displayName: "Food" },
+        { key: "safety", displayName: "Safety" },
+        { key: "greekLife", displayName: "Greek Life" },
+        { key: "clubs", displayName: "Clubs" },
+        { key: "facilities", displayName: "Facilities" },
+        { key: "location", displayName: "Location" },
+        { key: "faculty", displayName: "Faculty" },
+        { key: "networking", displayName: "Networking" },
     ];
 
-    // Calculate the average rating for each category
     const categoryAverages = ratingCategories.reduce((acc, category) => {
         const total = reviews.reduce(
-            (sum, review) => sum + (review[category] || 0),
+            (sum, review) => sum + (review[category.key] || 0),
             0
         );
-        acc[category] = (total / reviews.length).toFixed(2);
+        acc[category.key] = (total / reviews.length).toFixed(2);
         return acc;
     }, {});
 
-    // Calculate the overall average rating
-    const overallAverage =
+    const overallAverage = (
         Object.values(categoryAverages).reduce(
             (acc, avg) => acc + parseFloat(avg),
             0
-        ) / ratingCategories.length;
+        ) / ratingCategories.length
+    ).toFixed(2);
+
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <FontAwesomeIcon
+                    key={i}
+                    icon={faStar}
+                    className={i <= rating ? "active" : ""}
+                />
+            );
+        }
+        return stars;
+    };
 
     return (
-        
-        <div className="overall-review">
-            
-            <h2>Overall Rating</h2>
-            {noReturn()}
-            <p>Average Rating: {overallAverage.toFixed(2)}</p>
-            <h3>Category Averages</h3>
-            <ul>
-                {ratingCategories.map((category) => (
-                    <li key={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1)}:{" "}
-                        {categoryAverages[category]}
-                    </li>
-                ))}
-            </ul>
+        <div className="overall-review-container">
+            <div className="rating-box">
+                <div className="overall-rating">
+                    <p>Overall Rating: {overallAverage}</p>
+                </div>
+                <div className="category-ratings">
+                    <div className="column">
+                        {ratingCategories.slice(0, 4).map((category) => (
+                            <div key={category.key} className="category">
+                                <span>{category.displayName}:</span>
+                                <div className="stars">
+                                    {renderStars(
+                                        Math.round(
+                                            categoryAverages[category.key]
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="column">
+                        {ratingCategories.slice(4).map((category) => (
+                            <div key={category.key} className="category">
+                                <span>{category.displayName}:</span>
+                                <div className="stars">
+                                    {renderStars(
+                                        Math.round(
+                                            categoryAverages[category.key]
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
