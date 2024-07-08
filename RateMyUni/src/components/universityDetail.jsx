@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 import useFetchReviews from "../hooks/useFetchReviews";
-import "./styling/UniversityDetail.css"; // Assuming you have a CSS file for styling
+import "./styling/UniversityDetail.css"; 
 import OverallRev from "./OverallRev";
 import CreateRev from "./CreateRev";
 
