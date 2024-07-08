@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignUp from "./components/SignUp.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
+import UniversityDetail from "./components/universityDetail.jsx";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -13,6 +14,14 @@ const router = createBrowserRouter([
     {
         path: '/signUp',
         element: <SignUp />,
+    },
+    {
+        path: '/university/:id', // Dynamic route for university details
+        element: <UniversityDetail />,
+    },
+    {
+        path: '*', // Catch-all route for undefined paths
+        element: <NotFoundPage />,
     },
 
 ]);

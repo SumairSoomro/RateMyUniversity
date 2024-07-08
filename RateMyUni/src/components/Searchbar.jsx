@@ -1,29 +1,39 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import "./styling/Searchbar.css";
-import SearchIcon from "@mui/icons-material/Search"; // Updated import for SearchIcon
-import CloseIcon from "@mui/icons-material/Close"; // Updated import for CloseIcon
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar({ placeholder }) {
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
     const [universities, setUniversities] = useState([]);
+    const [pendingNavigationId, setPendingNavigationId] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch the university data from the backend
         const fetchUniversities = async () => {
             try {
-                const response = await fetch("http://localhost:8000/api/universities");
+                const response = await fetch(
+                    "http://localhost:8000/api/universities"
+                );
                 const data = await response.json();
-                
                 setUniversities(data);
+
+                // Navigate if there was a pending navigation
+                if (pendingNavigationId) {
+                    navigate(`/university/${pendingNavigationId}`);
+                    setPendingNavigationId(null); // Clear pending navigation ID
+                }
             } catch (error) {
                 console.error("Error fetching universities:", error);
             }
         };
 
         fetchUniversities();
-    }, []);
+    }, [pendingNavigationId, navigate]);
 
     const handleFilter = (event) => {
         const searchWord = event.target.value;
@@ -42,6 +52,16 @@ function SearchBar({ placeholder }) {
     const clearInput = () => {
         setFilteredData([]);
         setWordEntered("");
+    };
+
+    const handleClick = (id) => {
+        // Check if data has been loaded before navigating
+        if (universities.length > 0) {
+            navigate(`/university/${id}`);
+        } else {
+            // Set pending navigation if data is not yet available
+            setPendingNavigationId(id);
+        }
     };
 
     return (
@@ -63,22 +83,23 @@ function SearchBar({ placeholder }) {
             </div>
             {filteredData.length !== 0 && (
                 <div className="dataResult">
-                    {filteredData.slice(0, 15).map((value, key) => {
-                        return (
-                            <div className="dataItem" key={key}>
-                                <p>{value.name}</p>
-                            </div>
-                        );
-                    })}
+                    {filteredData.slice(0, 15).map((value, key) => (
+                        <div
+                            className="dataItem"
+                            key={key}
+                            onClick={() => handleClick(value._id)}
+                        >
+                            <p>{value.name}</p>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>
     );
 }
 
-// Define prop types for the component
 SearchBar.propTypes = {
-    placeholder: PropTypes.string.isRequired, // Define the type and requirement of the placeholder prop
+    placeholder: PropTypes.string.isRequired,
 };
 
 export default SearchBar;

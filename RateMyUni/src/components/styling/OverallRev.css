@@ -1,0 +1,65 @@
+
+.no-reviews-message {
+    text-align: center;
+    font-size: 1.5em; /* Adjust this value to make the text bigger */
+    color: #fff; /* Optional: Change text color */
+    padding: 20px; /* Optional: Add some padding */
+    padding-left: 440px;
+    padding-top: 50px;
+}
+
+
+.overall-review-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background-color: #333;
+    margin-top: 60px; /* Adjust this value to move the container lower */
+}
+
+
+.rating-box {
+    position: relative; /* Make the parent container relatively positioned */
+    text-align: left;
+}
+.overall-rating {
+    position: absolute; /* Make the overall rating absolutely positioned */
+    top: 70px; /* Adjust this value to move the overall rating lower */
+    left: -20px;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.overall-rating-wrapper {
+    margin-top: 40px; /* Adjust this value to move the overall rating lower */
+}
+
+.category-ratings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 80px;
+}
+
+.category {
+    width: 45%;
+    margin-bottom: 10px;
+    white-space: nowrap; /* Prevents text from wrapping to a new line */
+}
+
+.stars {
+    display: flex;
+    margin-left: 10px;
+}
+
+.stars .fa-star {
+    color: #ccc;
+    margin-right: 5px;
+}
+
+.stars .fa-star.active {
+    color: #f4b400;
+}
