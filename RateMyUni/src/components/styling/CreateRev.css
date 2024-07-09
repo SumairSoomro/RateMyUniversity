@@ -6,6 +6,7 @@
     border-radius: 10px;
     background-color: #333;
     margin-top: 60px;
+    margin-bottom: 50px;
 }
 
 .create-review-container h2 {
@@ -72,7 +73,7 @@
     background-color: #444; /* Optional: Change background color */
     color: #fff; /* Optional: Change text color */
     height: 150px; /* Adjust this value to make the text box bigger */
-    font-family: 'Arial', sans-serif; /* Change font family here */
+    font-family: "Arial", sans-serif; /* Change font family here */
 }
 
 button {

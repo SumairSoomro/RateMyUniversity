@@ -4,7 +4,7 @@ import "./styling/CreateRev.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const CreateRev = ({ universityId }) => {
+const CreateRev = ({ universityId, setReviews, reviews }) => {
     const [ratings, setRatings] = useState({
         food: 0,
         safety: 0,
@@ -43,6 +43,10 @@ const CreateRev = ({ universityId }) => {
             });
 
             if (response.ok) {
+                const newReview = await response.json();
+                // Update the reviews state with the new review
+                setReviews([...reviews, newReview]);
+
                 // Clear the form
                 setRatings({
                     food: 0,
@@ -142,6 +146,8 @@ const CreateRev = ({ universityId }) => {
 
 CreateRev.propTypes = {
     universityId: PropTypes.string.isRequired,
+    setReviews: PropTypes.func.isRequired,
+    reviews: PropTypes.array.isRequired,
 };
 
 export default CreateRev;
