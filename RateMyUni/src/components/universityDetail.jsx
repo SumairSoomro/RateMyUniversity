@@ -20,7 +20,7 @@ function UniversityDetail() {
         loading: nameLoading,
         error: nameError,
     } = useFetchNames(id); // Use the new hook
-    
+
     const [reviews, setReviews] = useState(initialReviews);
 
     useEffect(() => {
@@ -34,15 +34,20 @@ function UniversityDetail() {
     return (
         <div>
             <Navbar2 />
-            <h2 className="name-Top">{universityName}</h2> {/* Display the university name */}
+            <h2 className="name-Top">{universityName}</h2>{" "}
+            {/* Display the university name */}
             <OverallRev reviews={reviews} />
             <CreateRev
                 universityId={id}
                 setReviews={setReviews}
                 reviews={reviews}
             />
-            <ReviewList reviews={reviews} universityName={universityName} />
-            {/* Pass the university name as a prop */}
+            <ReviewList
+                reviews={reviews}
+                universityName={universityName}
+                setReviews={setReviews}
+            />
+            {/* Pass the university name and setReviews as props */}
         </div>
     );
 }
