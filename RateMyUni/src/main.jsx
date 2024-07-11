@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignUp from "./components/SignUp.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 import UniversityDetail from "./components/universityDetail.jsx";
+import Login from "./components/Login.jsx";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         path: '*', // Catch-all route for undefined paths
         element: <NotFoundPage />,
     },
+    {
+        path: '/Login',
+        element: <Login />,
+    }
 
 ]);
 

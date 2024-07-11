@@ -1,10 +1,9 @@
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import "./styling/ReviewList.css";
 
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import './styling/ReviewList.css';
-
-const ReviewList = ({ reviews }) => {
+const ReviewList = ({ reviews, universityName }) => {
     const renderStars = (rating) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -12,12 +11,16 @@ const ReviewList = ({ reviews }) => {
                 <FontAwesomeIcon
                     key={i}
                     icon={faStar}
-                    className={i <= rating ? 'fa-star review-active' : 'fa-star'}
+                    className={
+                        i <= rating ? "fa-star review-active" : "fa-star"
+                    }
                 />
             );
         }
         return stars;
     };
+
+
 
     if (!reviews || reviews.length === 0) {
         return null;
@@ -25,8 +28,10 @@ const ReviewList = ({ reviews }) => {
 
     return (
         <>
-            {reviews.map((review, index) => (
+            {reviews.map((review, index) => ( 
+                
                 <div key={index} className="review-item-container">
+                    <h3 className="review-university-name">{universityName}</h3>
                     <div className="review-rating-columns">
                         <div className="review-rating-column">
                             <div className="review-category">
@@ -106,6 +111,7 @@ ReviewList.propTypes = {
             reviewText: PropTypes.string,
         })
     ),
+    universityName: PropTypes.string.isRequired,
 };
 
 export default ReviewList;

@@ -1,9 +1,10 @@
-import{ useState } from "react";
+
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import "./styling/SignUp.css";
+import './styling/Login.css'; // Import the CSS file
 
-function Signup() {
+function Login() {
     const history = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -14,19 +15,19 @@ function Signup() {
 
         try {
             await axios
-                .post("http://localhost:8000/signup", {
+                .post("http://localhost:8000/", {
                     email,
                     password,
                 })
                 .then((res) => {
                     if (res.data === "exist") {
-                        alert("User already exists");
-                    } else if (res.data === "notexist") {
                         history("/home", { state: { id: email } });
+                    } else if (res.data === "notexist") {
+                        alert("User have not signed up");
                     }
                 })
                 .catch((e) => {
-                    alert("wrong details");
+                    alert("Wrong details");
                     console.log(e);
                 });
         } catch (e) {
@@ -37,7 +38,7 @@ function Signup() {
     return (
         <div className="login">
             <div className="login-container">
-                <h1>Signup</h1>
+                <h1>Login</h1>
 
                 <form action="POST">
                     <input
@@ -61,10 +62,10 @@ function Signup() {
                 <p>OR</p>
                 <br />
 
-                <Link to="/Login">Login </Link>
+                <Link to="/signup">Signup</Link>
             </div>
         </div>
     );
 }
 
-export default Signup;
+export default Login;
