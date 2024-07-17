@@ -1,37 +1,39 @@
-
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import './styling/Login.css'; // Import the CSS file
+import { useNavigate } from "react-router-dom";
+import "./styling/Login.css"; // Assuming you have a corresponding CSS file
+import { Link } from "react-router-dom";
 
 function Login() {
-    const history = useNavigate();
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     async function submit(e) {
         e.preventDefault();
-
         try {
             await axios
-                .post("http://localhost:8000/", {
+                .post("http://localhost:8000/api/users/login", {
                     email,
                     password,
                 })
                 .then((res) => {
-                    if (res.data === "exist") {
-                        history("/home", { state: { id: email } });
-                    } else if (res.data === "notexist") {
-                        alert("User have not signed up");
+                    if (res.status === 200) {
+                        // Store the JWT token in local storage
+                        localStorage.setItem("token", res.data.token);
+
+                        // Redirect to the home page
+                        navigate("/", { state: { id: email } });
+                    } else {
+                        alert("Invalid credentials");
                     }
                 })
-                .catch((e) => {
-                    alert("Wrong details");
-                    console.log(e);
+                .catch((error) => {
+                    alert("Login failed");
+                    console.log(error);
                 });
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -39,30 +41,27 @@ function Login() {
         <div className="login">
             <div className="login-container">
                 <h1>Login</h1>
-
-                <form action="POST">
+                <form onSubmit={submit}>
                     <input
                         type="email"
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
+                        required
                     />
                     <input
                         type="password"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
+                        required
                     />
-                    <input type="submit" onClick={submit} />
+                    <button type="submit">Login</button>
                 </form>
-
-                <br />
-                <p>OR</p>
-                <br />
-
-                <Link to="/signup">Signup</Link>
+                <p>
+                    {`Don't have an account?`}{" "}
+                    <Link to="/signup">Sign up here</Link>
+                </p>
             </div>
         </div>
     );

@@ -1,67 +1,62 @@
-import{ useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import "./styling/SignUp.css";
+import { useNavigate } from "react-router-dom";
+import "./styling/SignUp.css"; // Assuming you have a corresponding CSS file
 
 function Signup() {
-    const history = useNavigate();
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     async function submit(e) {
         e.preventDefault();
-
         try {
             await axios
-                .post("http://localhost:8000/signup", {
+                .post("http://localhost:8000/api/users", {
                     email,
                     password,
                 })
                 .then((res) => {
-                    if (res.data === "exist") {
+                    if (res.status === 201) {
+                        // Check for the status code for successful registration
+                        navigate("/login"); // Redirect to the login page
+                    } else {
                         alert("User already exists");
-                    } else if (res.data === "notexist") {
-                        history("/home", { state: { id: email } });
                     }
                 })
-                .catch((e) => {
-                    alert("wrong details");
-                    console.log(e);
+                .catch((error) => {
+                    alert("Registration failed");
+                    console.log(error);
                 });
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log(error);
         }
     }
 
     return (
-        <div className="login">
-            <div className="login-container">
+        <div className="signup">
+            <div className="signup-container">
                 <h1>Signup</h1>
-
-                <form action="POST">
+                <form onSubmit={submit}>
                     <input
                         type="email"
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
+                        required
                     />
                     <input
                         type="password"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
+                        required
                     />
-                    <input type="submit" onClick={submit} />
+                    <button type="submit">Sign Up</button>
                 </form>
-
-                <br />
-                <p>OR</p>
-                <br />
-
-                <Link to="/Login">Login </Link>
+                <p>
+                    Already have an account? <a href="/login">Login here</a>
+                </p>
             </div>
         </div>
     );

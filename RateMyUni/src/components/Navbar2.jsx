@@ -1,7 +1,17 @@
 import "./styling/Navbar2.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Navbar2 = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        localStorage.removeItem("token");
+
+        // Redirect to the login page
+        navigate("/");
+    };
+
     return (
         <div className="navbar2-page">
             <nav className="navbar2">
@@ -13,9 +23,14 @@ const Navbar2 = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/logout" className="navbar-link2">
+                        {/* Changed from Link to button or div that calls handleLogout on click */}
+                        <a
+                            onClick={handleLogout}
+                            className="navbar-link2"
+                            style={{ cursor: "pointer" }}
+                        >
                             Logout
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </nav>
