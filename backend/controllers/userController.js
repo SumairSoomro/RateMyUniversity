@@ -3,9 +3,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 
-// @desc    Register new user
-// @route   POST /api/users
-// @access  Public
+
 const registerUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -14,7 +12,6 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error("Please add all fields");
     }
 
-    // Check if user exists
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -22,14 +19,9 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error("User already exists");
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
     const user = await User.create({
         email,
-        password: hashedPassword,
+        password,
     });
 
     if (user) {
@@ -44,16 +36,14 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Authenticate a user
-// @route   POST /api/users/login
-// @access  Public
+
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    // Check for user email
+
     const user = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user.id,
             email: user.email,
@@ -65,11 +55,9 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Get user data
-// @route   GET /api/users/me
-// @access  Private
+
 const getMe = asyncHandler(async (req, res) => {
-    // Assuming req.user is set by authMiddleware
+
     const user = await User.findById(req.user.id);
     if (!user) {
         res.status(404);
@@ -78,9 +66,9 @@ const getMe = asyncHandler(async (req, res) => {
     res.status(200).json({
         _id: user._id,
         email: user.email,
-        // Include other fields if necessary
     });
 });
+
 // Generate JWT
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -93,3 +81,4 @@ module.exports = {
     loginUser,
     getMe,
 };
+

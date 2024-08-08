@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
     {
+
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+        },
         universityId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "University", // Reference the University model

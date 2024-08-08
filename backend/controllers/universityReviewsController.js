@@ -21,6 +21,7 @@ const createReview = async (req, res) => {
     }
 
     const review = new UniversityReview({
+        userId: req.user.id, // Associate review with user ID
         universityId: req.body.universityId,
         food: req.body.food,
         safety: req.body.safety,
@@ -30,7 +31,7 @@ const createReview = async (req, res) => {
         location: req.body.location,
         faculty: req.body.faculty,
         networking: req.body.networking,
-        reviewText: req.body.reviewText, // Add this line
+        reviewText: req.body.reviewText,
     });
 
     try {
@@ -49,34 +50,21 @@ const updateReview = async (req, res) => {
             return res.status(404).json({ message: "Review not found" });
         }
 
+        // Check if the logged-in user is the owner of the review
+        if (review.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Not authorized to update this review" });
+        }
+
         // Update the review with new data
         review.food = req.body.food !== undefined ? req.body.food : review.food;
-        review.safety =
-            req.body.safety !== undefined ? req.body.safety : review.safety;
-        review.greekLife =
-            req.body.greekLife !== undefined
-                ? req.body.greekLife
-                : review.greekLife;
-        review.clubs =
-            req.body.clubs !== undefined ? req.body.clubs : review.clubs;
-        review.facilities =
-            req.body.facilities !== undefined
-                ? req.body.facilities
-                : review.facilities;
-        review.location =
-            req.body.location !== undefined
-                ? req.body.location
-                : review.location;
-        review.faculty =
-            req.body.faculty !== undefined ? req.body.faculty : review.faculty;
-        review.networking =
-            req.body.networking !== undefined
-                ? req.body.networking
-                : review.networking;
-        review.reviewText =
-            req.body.reviewText !== undefined
-                ? req.body.reviewText
-                : review.reviewText; // Add this line
+        review.safety = req.body.safety !== undefined ? req.body.safety : review.safety;
+        review.greekLife = req.body.greekLife !== undefined ? req.body.greekLife : review.greekLife;
+        review.clubs = req.body.clubs !== undefined ? req.body.clubs : review.clubs;
+        review.facilities = req.body.facilities !== undefined ? req.body.facilities : review.facilities;
+        review.location = req.body.location !== undefined ? req.body.location : review.location;
+        review.faculty = req.body.faculty !== undefined ? req.body.faculty : review.faculty;
+        review.networking = req.body.networking !== undefined ? req.body.networking : review.networking;
+        review.reviewText = req.body.reviewText !== undefined ? req.body.reviewText : review.reviewText;
 
         const updatedReview = await review.save();
         res.json(updatedReview);
@@ -85,11 +73,17 @@ const updateReview = async (req, res) => {
     }
 };
 
+// Delete a review
 const deleteReview = async (req, res) => {
     try {
         const review = await UniversityReview.findById(req.params.reviewId);
         if (!review) {
             return res.status(404).json({ message: "Review not found" });
+        }
+
+        // Check if the logged-in user is the owner of the review
+        if (review.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Not authorized to delete this review" });
         }
 
         await UniversityReview.deleteOne({ _id: req.params.reviewId });
@@ -98,9 +92,11 @@ const deleteReview = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
 module.exports = {
     getReviewsByUniversity,
     createReview,
     updateReview,
     deleteReview,
 };
+

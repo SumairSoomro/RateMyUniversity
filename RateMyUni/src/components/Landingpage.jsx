@@ -4,7 +4,7 @@ import SearchBar from "./Searchbar";
 function Landingpage() {
     return (
         <div className="centered-content">
-            <h1>Rate My University</h1>
+            <h1 style={{fontSize:"4rem"}}>Rate My University</h1>
             <p>
                 Discover and rate universities with Rate My University! Search
                 for your school and explore reviews to make informed decisions

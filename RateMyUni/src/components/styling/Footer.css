@@ -1,0 +1,17 @@
+
+.footer-wrapper {
+    background-color: #212121;
+  }
+  footer {
+    max-width: 1300px;
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+  }
+  footer h1 {
+    font-size: 20px;
+  }
+  

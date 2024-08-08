@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import "./styling/ReviewList.css";
 import { useState, useEffect } from "react";
+import { isMyself } from "../utils/isMyself";
+import axios from "axios";
 
 const ReviewList = ({ reviews, universityName, setReviews }) => {
     const [editingReviewId, setEditingReviewId] = useState(null);
@@ -28,14 +30,13 @@ const ReviewList = ({ reviews, universityName, setReviews }) => {
 
     const handleDeleteConfirm = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/reviews/${deleteConfirmId}`,
-                {
-                    method: "DELETE",
+            const response = await axios.delete(`http://localhost:8000/api/reviews/${deleteConfirmId}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
-            );
+            });
 
-            if (response.ok) {
+            if (response) {
                 const updatedReviews = reviews.filter(
                     (review) => review._id !== deleteConfirmId
                 );
@@ -70,19 +71,15 @@ const ReviewList = ({ reviews, universityName, setReviews }) => {
 
     const handleSaveClick = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/reviews/${editingReviewId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(editFormData),
+            const response = await axios.put(`http://localhost:8000/api/reviews/${editingReviewId}`, editFormData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
-            );
+            });
 
-            if (response.ok) {
-                const updatedReview = await response.json();
+            if (response) {
+                const updatedReview = await response.data;
                 const updatedReviews = reviews.map((review) =>
                     review._id === updatedReview._id ? updatedReview : review
                 );
@@ -126,18 +123,22 @@ const ReviewList = ({ reviews, universityName, setReviews }) => {
             {reviews.map((review) =>
                 editingReviewId === review._id ? (
                     <div key={review._id} className="review-item-container">
-                        <div className="icons">
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className="edit-icon"
-                                onClick={() => handleEditClick(review)}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className="delete-icon"
-                                onClick={() => handleDeleteClick(review._id)}
-                            />
-                        </div>
+                        {
+                            isMyself(review.userId) && (
+                                <div className="icons">
+                                    <FontAwesomeIcon
+                                        icon={faEdit}
+                                        className="edit-icon"
+                                        onClick={() => handleEditClick(review)}
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faTrashAlt}
+                                        className="delete-icon"
+                                        onClick={() => handleDeleteClick(review._id)}
+                                    />
+                                </div>
+                            )
+                        }
                         <h3 className="review-university-name">
                             {universityName}
                         </h3>
@@ -243,18 +244,21 @@ const ReviewList = ({ reviews, universityName, setReviews }) => {
                     </div>
                 ) : (
                     <div key={review._id} className="review-item-container">
-                        <div className="icons">
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className="edit-icon"
-                                onClick={() => handleEditClick(review)}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className="delete-icon"
-                                onClick={() => handleDeleteClick(review._id)}
-                            />
-                        </div>
+                        {
+                            isMyself(review.userId) && (
+                                <div className="icons">
+                                    <FontAwesomeIcon
+                                        icon={faEdit}
+                                        className="edit-icon"
+                                        onClick={() => handleEditClick(review)}
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faTrashAlt}
+                                        className="delete-icon"
+                                        onClick={() => handleDeleteClick(review._id)}
+                                    />
+                                </div>
+                            )}
                         <h3 className="review-university-name">
                             {universityName}
                         </h3>

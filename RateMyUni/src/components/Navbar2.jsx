@@ -24,7 +24,7 @@ const Navbar2 = () => {
                     </li>
                     <li>
                         {/* Changed from Link to button or div that calls handleLogout on click */}
-                        <a
+                        <a 
                             onClick={handleLogout}
                             className="navbar-link2"
                             style={{ cursor: "pointer" }}

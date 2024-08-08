@@ -55,6 +55,11 @@
 }
 
 .review-text-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+}
+
+.review-text-container p {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;

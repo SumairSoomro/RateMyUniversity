@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./styling/CreateRev.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const CreateRev = ({ universityId, setReviews, reviews }) => {
     const [ratings, setRatings] = useState({
@@ -34,16 +35,15 @@ const CreateRev = ({ universityId, setReviews, reviews }) => {
         };
 
         try {
-            const response = await fetch("http://localhost:8000/api/reviews", {
-                method: "POST",
+            const response = await axios.post("http://localhost:8000/api/reviews", reviewData, {
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify(reviewData),
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
             });
 
-            if (response.ok) {
-                const newReview = await response.json();
+            if (response.status === 201) {
+                const newReview = response.data;
                 // Update the reviews state with the new review
                 setReviews([...reviews, newReview]);
 

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 import useFetchReviews from "../hooks/useFetchReviews";
 import useFetchNames from "../hooks/useFetchNames"; // Import the new hook
@@ -7,9 +7,11 @@ import "./styling/UniversityDetail.css";
 import OverallRev from "./OverallRev";
 import CreateRev from "./CreateRev";
 import ReviewList from "./ReviewList"; // Import the new component
+import { isLoggedIn } from "../utils/isLoggedIn";
 
 function UniversityDetail() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const {
         reviews: initialReviews = [],
         loading: reviewsLoading,
@@ -22,6 +24,15 @@ function UniversityDetail() {
     } = useFetchNames(id); // Use the new hook
 
     const [reviews, setReviews] = useState(initialReviews);
+    const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn())
+
+    useEffect(() => {
+        if (!isLoggedIn()) {
+            navigate("/Login");
+        }
+        setIsAuthenticated(isLoggedIn())
+    }, [])
+
 
     useEffect(() => {
         setReviews(initialReviews);

@@ -89,7 +89,7 @@ function SearchBar({ placeholder }) {
                             key={key}
                             onClick={() => handleClick(value._id)}
                         >
-                            <p>{value.name}</p>
+                            <p className="uni-name">{value.name}</p>
                         </div>
                     ))}
                 </div>

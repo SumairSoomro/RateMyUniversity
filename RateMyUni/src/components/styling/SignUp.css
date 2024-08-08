@@ -1,4 +1,4 @@
-/* SignUp.css */
+/* styles.css or SignUp.css */
 body {
     overflow-x: hidden;
     margin: 0;
@@ -20,14 +20,14 @@ body {
     flex-direction: column;
 }
 
-.login {
+.signup {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.login-container {
+.signup-container {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 40px;
     border-radius: 10px;
@@ -35,19 +35,19 @@ body {
     text-align: center;
 }
 
-.login-container h1 {
+.signup-container h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
-.login-container form {
+.signup-container form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.login-container input[type="email"],
-.login-container input[type="password"] {
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
     width: 300px;
     padding: 10px;
     margin: 10px 0;
@@ -55,11 +55,11 @@ body {
     border-radius: 5px;
 }
 
-.login-container input[type="submit"] {
+.signup-container button[type="submit"] {
     width: 320px;
     padding: 10px;
     margin: 20px 0;
-    background-color: #333;
+    background-color: #3498db;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -67,15 +67,15 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.login-container input[type="submit"]:hover {
+.signup-container button[type="submit"]:hover {
     background-color: #555;
 }
 
-.login-container p {
+.signup-container p {
     margin: 20px 0;
 }
 
-.login-container a {
+.signup-container a {
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;
@@ -84,7 +84,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.login-container a:hover {
+.signup-container a:hover {
     background-color: #fff;
     color: #000;
 }
