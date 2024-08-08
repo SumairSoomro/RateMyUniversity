@@ -1,0 +1,90 @@
+/* styles.css or SignUp.css */
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+}
+
+#root {
+    height: 100%;
+}
+
+.App {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid white;
+    text-align: center;
+}
+
+.signup-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.signup-container button[type="submit"] {
+    width: 320px;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-container button[type="submit"]:hover {
+    background-color: #555;
+}
+
+.signup-container p {
+    margin: 20px 0;
+}
+
+.signup-container a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.signup-container a:hover {
+    background-color: #fff;
+    color: #000;
+}

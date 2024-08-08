@@ -8,13 +8,15 @@ const { connectDB } = require("./config/db");
 
 dotenv.config();
 
+connectDB();
+
 const universities = new Set();
 
 // Parse the CSV file
 fs.createReadStream("universities.csv")
     .pipe(csvParser())
     .on("data", (data) => {
-        console.log(data); // Log parsed data to debug
+        // console.log(data); // Log parsed data to debug
         if (data.institution) {
             universities.add(data.institution);
         }

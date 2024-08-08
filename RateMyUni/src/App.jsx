@@ -3,6 +3,9 @@ import "./App.css";
 import LandingPage from "./components/Landingpage";
 import Anon from "./components/Anon";
 import Editing from "./components/Editing";
+import CardsWrapper from "./components/CardsWrapper";
+import FeaturesArea from "./components/FeaturesArea";
+import Footer from "./components/Footer";
 function App() {
     return (
         <div className="App">
@@ -10,11 +13,14 @@ function App() {
             <div className="content">
                 <LandingPage />
             </div>
-            <div className="anonPicture">
-                <Anon />
+            <div className="" >
+                <CardsWrapper />
             </div>
-            <div className="editingPicture">
-                <Editing />
+            <div>
+                <FeaturesArea />
+            </div>
+            <div>
+                <Footer />
             </div>
         </div>
     );

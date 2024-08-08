@@ -3,6 +3,28 @@ body {
     overflow-x: hidden;
 }
 
+
+.centered-content::before {
+    --line: hsl(0 0% 95% / 0.15);
+    --cell: 120px;
+    content: "";
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--cell)
+        )
+        0 calc(var(--cell) * -0.5) / var(--cell) var(--cell),
+      linear-gradient(var(--line) 1px, transparent 1px var(--cell)) 0
+        calc(var(--cell) * -0.5) / var(--cell) var(--cell);
+    mask: linear-gradient(-15deg, transparent 30%, white);
+    top: 0;
+    z-index: 0;
+    transform: translate3d(0, 0, -100vmin);
+  }
+
 html {
     margin: 0;
     padding: 0;
@@ -12,9 +34,9 @@ html {
     color: rgb(255, 255, 255);
 }
 
-#root {
+/* #root {
     height: 100%;
-}
+} */
 
 .App {
     height: 100%;

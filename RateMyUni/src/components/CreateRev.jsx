@@ -1,52 +1,63 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import "./styling/CreateRev.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
-const CreateRev = ({ universityId }) => {
-    const [food, setFood] = useState(0);
-    const [safety, setSafety] = useState(0);
-    const [greekLife, setGreekLife] = useState(0);
-    const [clubs, setClubs] = useState(0);
-    const [facilities, setFacilities] = useState(0);
-    const [location, setLocation] = useState(0);
-    const [faculty, setFaculty] = useState(0);
-    const [networking, setNetworking] = useState(0);
+const CreateRev = ({ universityId, setReviews, reviews }) => {
+    const [ratings, setRatings] = useState({
+        food: 0,
+        safety: 0,
+        greekLife: 0,
+        clubs: 0,
+        facilities: 0,
+        location: 0,
+        faculty: 0,
+        networking: 0,
+    });
     const [reviewText, setReviewText] = useState("");
+
+    const handleRatingChange = (category, value) => {
+        setRatings((prevRatings) => ({
+            ...prevRatings,
+            [category]: prevRatings[category] === value ? 0 : value,
+        }));
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const reviewData = {
             universityId,
-            food,
-            safety,
-            greekLife,
-            clubs,
-            facilities,
-            location,
-            faculty,
-            networking,
+            ...ratings,
             reviewText,
         };
 
         try {
-            const response = await fetch("http://localhost:8000/api/reviews", {
-                method: "POST",
+            const response = await axios.post("http://localhost:8000/api/reviews", reviewData, {
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify(reviewData),
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
             });
 
-            if (response.ok) {
+            if (response.status === 201) {
+                const newReview = response.data;
+                // Update the reviews state with the new review
+                setReviews([...reviews, newReview]);
+
                 // Clear the form
-                setFood(0);
-                setSafety(0);
-                setGreekLife(0);
-                setClubs(0);
-                setFacilities(0);
-                setLocation(0);
-                setFaculty(0);
-                setNetworking(0);
+                setRatings({
+                    food: 0,
+                    safety: 0,
+                    greekLife: 0,
+                    clubs: 0,
+                    facilities: 0,
+                    location: 0,
+                    faculty: 0,
+                    networking: 0,
+                });
                 setReviewText("");
             } else {
                 console.error("Failed to submit review.");
@@ -56,99 +67,71 @@ const CreateRev = ({ universityId }) => {
         }
     };
 
+    const renderStars = (category) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <FontAwesomeIcon
+                    key={i}
+                    icon={faStar}
+                    className={
+                        i <= ratings[category]
+                            ? "fa-star create-active"
+                            : "fa-star"
+                    }
+                    onClick={() => handleRatingChange(category, i)}
+                />
+            );
+        }
+        return stars;
+    };
+
+    const ratingLabels = {
+        food: "Food",
+        safety: "Safety",
+        greekLife: "Greek Life",
+        clubs: "Clubs",
+        facilities: "Facilities",
+        location: "Location",
+        faculty: "Faculty",
+        networking: "Networking",
+    };
+
+    const ratingCategories = Object.keys(ratingLabels);
+
     return (
-        <div>
-            <h2>Submit a Review for University ID: {universityId}</h2>
+        <div className="create-review-container">
+            <h2>Submit a Review!</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Food:</label>
-                    <input
-                        type="number"
-                        value={food}
-                        onChange={(e) => setFood(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
+                <div className="create-rating-columns">
+                    <div className="create-rating-column">
+                        {ratingCategories.slice(0, 4).map((category) => (
+                            <div
+                                key={category}
+                                className="create-rating-category"
+                            >
+                                <label>{ratingLabels[category]}:</label>
+                                <div className="create-stars">
+                                    {renderStars(category)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="create-rating-column">
+                        {ratingCategories.slice(4).map((category) => (
+                            <div
+                                key={category}
+                                className="create-rating-category"
+                            >
+                                <label>{ratingLabels[category]}:</label>
+                                <div className="create-stars">
+                                    {renderStars(category)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div>
-                    <label>Safety:</label>
-                    <input
-                        type="number"
-                        value={safety}
-                        onChange={(e) => setSafety(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Greek Life:</label>
-                    <input
-                        type="number"
-                        value={greekLife}
-                        onChange={(e) => setGreekLife(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Clubs:</label>
-                    <input
-                        type="number"
-                        value={clubs}
-                        onChange={(e) => setClubs(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Facilities:</label>
-                    <input
-                        type="number"
-                        value={facilities}
-                        onChange={(e) => setFacilities(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Location:</label>
-                    <input
-                        type="number"
-                        value={location}
-                        onChange={(e) => setLocation(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Faculty:</label>
-                    <input
-                        type="number"
-                        value={faculty}
-                        onChange={(e) => setFaculty(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Networking:</label>
-                    <input
-                        type="number"
-                        value={networking}
-                        onChange={(e) => setNetworking(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                        required
-                    />
-                </div>
-                <div>
+                <div className="create-review-text">
                     <label>Review Text:</label>
                     <textarea
                         value={reviewText}
@@ -163,6 +146,8 @@ const CreateRev = ({ universityId }) => {
 
 CreateRev.propTypes = {
     universityId: PropTypes.string.isRequired,
+    setReviews: PropTypes.func.isRequired,
+    reviews: PropTypes.array.isRequired,
 };
 
 export default CreateRev;

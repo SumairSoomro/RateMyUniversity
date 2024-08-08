@@ -10,5 +10,16 @@ const getUniversities = async (req, res) => {
         res.status(500).json({ message: "Error fetching universities", error });
     }
 };
+const getUniveritybyID = async (req, res) => {
+    try {
+        const university = await University.findById(req.params.id, "name");
+        if (!university) {
+            return res.status(404).json({ message: "University not found" });
+        }
+        res.json(university);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching university", error });
+    }
+};
 
-module.exports = { getUniversities };
+module.exports = { getUniversities, getUniveritybyID };

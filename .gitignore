@@ -37,3 +37,4 @@ RateMyUni/.env
 backend/node_modules
 backend/.env
 backend/dist
+.env
